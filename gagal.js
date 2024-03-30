@@ -116,7 +116,6 @@ const dummySensorData = [
   [25, 24, 90, 850, "Kurang"],
 ];
 
-
 // Nama-nama kolom
 const columnNames = [
   "suhuAir",
@@ -145,6 +144,73 @@ if (dummySensorData.length <= k) {
 } else {
   clusters = kmeans(convertedDummyData, k);
 }
+// console.log("Klaster untuk Data Sensor:");
+// clusters.forEach((cluster, index) => {
+//   let action;
+//   switch (cluster) {
+//     case 1:
+//       action = "Tindakan tambah air";
+//       break;
+//     case 2:
+//       action = "Tindakan tambah nutrisi";
+//       break;
+//     case 3:
+//       action = "Tindakan tambah air dan nutrisi";
+//       break;
+//     case 4:
+//       action = "Tindakan mist";
+//       break;
+//     default:
+//       action = "Tidak ada tindakan";
+//   }
+//   console.log(`Data ${index + 1} termasuk dalam Klaster ${cluster}: ${action}`);
+// });
+
+// function printClusterData(data, clusters) {
+//   const clusterData = {};
+//   clusters.forEach((cluster, index) => {
+//     if (!clusterData.hasOwnProperty(cluster)) {
+//       clusterData[cluster] = [];
+//     }
+//     clusterData[cluster].push(data[index]);
+//   });
+
+//   console.log("\nData dalam setiap Klaster:");
+//   Object.keys(clusterData).forEach((clusterIndex) => {
+//     console.log(`Klaster ${clusterIndex}:`);
+//     clusterData[clusterIndex].forEach((dataPoint, index) => {
+//       console.log(`  Data ${index + 1}: [${dataPoint.join(", ")}]`);
+//     });
+//   });
+// }
+
+// Contoh penggunaan untuk mencetak data dalam setiap klaster
+// printClusterData(convertedDummyData, clusters);
+
+// Ambil 4 data dummy yang memiliki 4 tindakan berbeda
+// const selectedDummyData = [
+//   convertedDummyData[0], // Tindakan tambah air
+//   convertedDummyData[1], // Tindakan tambah nutrisi
+//   convertedDummyData[2], // Tindakan tambah air dan nutrisi
+//   convertedDummyData[5], // Tindakan mist
+// ];
+
+// // Hitung pusat klaster awal (rata-rata fitur)
+// const initialCentroids = selectedDummyData.reduce((acc, dataPoint) => {
+//   for (let i = 0; i < dataPoint.length - 1; i++) {
+//     acc[i] = acc[i] || [];
+//     acc[i].push(dataPoint[i]);
+//   }
+//   return acc;
+// }, []);
+
+// const initialCentroidsAverage = initialCentroids.map((featureValues) => {
+//   const sum = featureValues.reduce((total, value) => total + value, 0);
+//   return sum / featureValues.length;
+// });
+
+// console.log("Pusat Klaster Awal:");
+// console.log(initialCentroidsAverage);
 
 console.log("Data Konversi:");
 console.log(convertedDummyData);
@@ -173,51 +239,7 @@ for (let i = 0; i < convertedDummyData.length; i++) {
 }
 
 // Menampilkan hasil jarak
-// console.log("Jarak dari setiap data ke setiap pusat klaster:");
-// for (let i = 0; i < distances.length; i++) {
-//   console.log(`Data ${i + 1}: ${distances[i].join(", ")}`);
-// }
-
-// Array untuk menyimpan klaster untuk setiap kolom
-const clustersByColumn = {
-  C1: [],
-  C2: [],
-  C3: [],
-  C4: []
-};
-
-// Menentukan klaster untuk setiap kolom
+console.log("Jarak dari setiap data ke setiap pusat klaster:");
 for (let i = 0; i < distances.length; i++) {
-  clustersByColumn.C1.push(distances[i][0]);
-  clustersByColumn.C2.push(distances[i][1]);
-  clustersByColumn.C3.push(distances[i][2]);
-  clustersByColumn.C4.push(distances[i][3]);
-}
-
-// Menampilkan klaster untuk setiap kolom
-console.log("Klaster untuk setiap kolom:");
-Object.keys(clustersByColumn).forEach(column => {
-  console.log(`${column}: ${clustersByColumn[column].join(", ")}`);
-});
-
-// Array untuk menyimpan indeks baris dengan nilai minimum di setiap kolom
-const minRowsInColumns = {};
-
-// Menentukan indeks baris dengan nilai minimum di setiap kolom
-for (let col = 0; col < distances[0].length; col++) {
-  let minValue = Infinity;
-  let minRow = -1;
-  for (let row = 0; row < distances.length; row++) {
-    if (distances[row][col] < minValue) {
-      minValue = distances[row][col];
-      minRow = row;
-    }
-  }
-  minRowsInColumns[`C${col + 1}`] = minRow; // Simpan indeks baris paling minimal
-}
-
-// Menampilkan hasil baris dengan nilai minimum di setiap kolom
-console.log("Baris dengan nilai minimum di setiap kolom:");
-for (let column in minRowsInColumns) {
-  console.log(`${column} = Data ${minRowsInColumns[column] + 1}`);
+  console.log(`Data ${i + 1}: ${distances[i].join(", ")}`);
 }
