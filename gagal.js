@@ -7,8 +7,6 @@ function euclideanDistance(vector1, vector2) {
   return Math.sqrt(sum);
 }
 
-let gagal = null;
-
 // Fungsi untuk menginisialisasi pusat klaster secara acak
 function initializeCentroids(data, k) {
   const centroids = [];
